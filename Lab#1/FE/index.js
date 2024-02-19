@@ -42,6 +42,9 @@ document.getElementById('employeeForm').addEventListener('submit', createEmploye
 
 // TODO
 function createEmployee(event) {
+  // get data from input field
+  // send data to BE
+  // call fetchEmployees
   event.preventDefault();
   const employeeId = document.getElementById('id').value;
   const employeeName = document.getElementById('name').value;
@@ -63,7 +66,9 @@ function createEmployee(event) {
 }
 
 function deleteEmployee(id) {
-  // If no ID is provided, prompt the user to enter one
+  // get id
+  // send id to BE
+  // call fetchEmployees
   if (!id) {
     id = prompt('Enter the ID of the employee to delete:');
     if (!id) {
@@ -83,43 +88,5 @@ function deleteEmployee(id) {
     })
     .catch(error => console.error(error));
 }
-// function createEmployee() {
-//   const employeeId = document.getElementById('id').value;
-//   const employeeName = document.getElementById('name').value;
-//   fetch('http://localhost:3000/api/v1/employee', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify({ id: employeeId, name: employeeName })
-//   })
-//     .then(response => {
-//       if (response.ok) {
-//         fetchEmployees();
-//       } else {
-//         throw new Error('Failed to create employee');
-//       }
-//     })
-//     .catch(error => console.error(error));
-// }
-
-// // TODO
-// function deleteEmployee(id) {
-//   // get id
-//   // send id to BE
-//   // call fetchEmployees
-//   fetch(`http://localhost:3000/api/v1/employee/${id}`, {
-//     method: 'DELETE'
-//   })
-//     .then(response => {
-//       if (response.ok) {
-//         fetchEmployees();
-//       } else {
-//         throw new Error('Failed to delete employee');
-//       }
-//     })
-//     .catch(error => console.error(error));
-// }
-
 
 fetchEmployees()
