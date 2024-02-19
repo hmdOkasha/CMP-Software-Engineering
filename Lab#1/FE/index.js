@@ -19,6 +19,9 @@ function fetchEmployees() {
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
         deleteButton.classList.add('btn', 'btn-danger', 'btn-sm');
+
+        deleteButton.addEventListener('click', () => deleteEmployee(item.id));
+
         deleteCell.appendChild(deleteButton);
 
         row.appendChild(deleteCell)
@@ -32,21 +35,91 @@ function fetchEmployees() {
 // TODO
 // add event listener to submit button
 
+document.getElementById('employeeForm').addEventListener('submit', createEmployee);
+
 // TODO
 // add event listener to delete button
 
 // TODO
-function createEmployee (){
-  // get data from input field
-  // send data to BE
-  // call fetchEmployees
+function createEmployee(event) {
+  event.preventDefault();
+  const employeeId = document.getElementById('id').value;
+  const employeeName = document.getElementById('name').value;
+  fetch('http://localhost:3000/api/v1/employee', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ id: employeeId, name: employeeName })
+  })
+    .then(response => {
+      if (response.ok) {
+        fetchEmployees();
+      } else {
+        throw new Error('Failed to create employee');
+      }
+    })
+    .catch(error => console.error(error));
 }
 
-// TODO
-function deleteEmployee (){
-  // get id
-  // send id to BE
-  // call fetchEmployees
+function deleteEmployee(id) {
+  // If no ID is provided, prompt the user to enter one
+  if (!id) {
+    id = prompt('Enter the ID of the employee to delete:');
+    if (!id) {
+      console.error('Employee ID is required');
+      return;
+    }
+  }
+  fetch(`http://localhost:3000/api/v1/employee/${id}`, {
+    method: 'DELETE'
+  })
+    .then(response => {
+      if (response.ok) {
+        fetchEmployees();
+      } else {
+        throw new Error('Failed to delete employee');
+      }
+    })
+    .catch(error => console.error(error));
 }
+// function createEmployee() {
+//   const employeeId = document.getElementById('id').value;
+//   const employeeName = document.getElementById('name').value;
+//   fetch('http://localhost:3000/api/v1/employee', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify({ id: employeeId, name: employeeName })
+//   })
+//     .then(response => {
+//       if (response.ok) {
+//         fetchEmployees();
+//       } else {
+//         throw new Error('Failed to create employee');
+//       }
+//     })
+//     .catch(error => console.error(error));
+// }
+
+// // TODO
+// function deleteEmployee(id) {
+//   // get id
+//   // send id to BE
+//   // call fetchEmployees
+//   fetch(`http://localhost:3000/api/v1/employee/${id}`, {
+//     method: 'DELETE'
+//   })
+//     .then(response => {
+//       if (response.ok) {
+//         fetchEmployees();
+//       } else {
+//         throw new Error('Failed to delete employee');
+//       }
+//     })
+//     .catch(error => console.error(error));
+// }
+
 
 fetchEmployees()
