@@ -58,7 +58,9 @@ function createEmployee(event) {
     .then(response => {
       if (response.ok) {
         fetchEmployees();
-      } 
+      } else {
+        throw new Error('Failed to create employee');
+      }
     })
     .catch(error => console.error(error));
 }
@@ -75,7 +77,6 @@ function deleteEmployee(id) {
         fetchEmployees();
       } 
     })
-    .catch(error => console.error(error));
 }
 
 fetchEmployees()
