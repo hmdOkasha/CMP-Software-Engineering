@@ -58,9 +58,7 @@ function createEmployee(event) {
     .then(response => {
       if (response.ok) {
         fetchEmployees();
-      } else {
-        throw new Error('Failed to create employee');
-      }
+      } 
     })
     .catch(error => console.error(error));
 }
@@ -69,22 +67,13 @@ function deleteEmployee(id) {
   // get id
   // send id to BE
   // call fetchEmployees
-  if (!id) {
-    id = prompt('Enter the ID of the employee to delete:');
-    if (!id) {
-      console.error('Employee ID is required');
-      return;
-    }
-  }
   fetch(`http://localhost:3000/api/v1/employee/${id}`, {
     method: 'DELETE'
   })
     .then(response => {
       if (response.ok) {
         fetchEmployees();
-      } else {
-        throw new Error('Failed to delete employee');
-      }
+      } 
     })
     .catch(error => console.error(error));
 }
