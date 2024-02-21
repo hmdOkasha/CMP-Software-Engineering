@@ -19,7 +19,8 @@ function fetchEmployees() {
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
         deleteButton.classList.add('btn', 'btn-danger', 'btn-sm');
-
+        
+        // Delete event listener
         deleteButton.addEventListener('click', () => deleteEmployee(item.id));
 
         deleteCell.appendChild(deleteButton);
@@ -48,6 +49,7 @@ function createEmployee(event) {
   event.preventDefault();
   const employeeId = document.getElementById('id').value;
   const employeeName = document.getElementById('name').value;
+
   fetch('http://localhost:3000/api/v1/employee', {
     method: 'POST',
     headers: {
@@ -55,13 +57,15 @@ function createEmployee(event) {
     },
     body: JSON.stringify({ id: employeeId, name: employeeName })
   })
+
     .then(response => {
-      if (response.ok) {
+      if (response.status === 201) {
         fetchEmployees();
       } else {
         throw new Error('Failed to create employee');
       }
     })
+
     .catch(error => console.error(error));
 }
 
@@ -72,11 +76,15 @@ function deleteEmployee(id) {
   fetch(`http://localhost:3000/api/v1/employee/${id}`, {
     method: 'DELETE'
   })
+
     .then(response => {
       if (response.ok) {
         fetchEmployees();
-      } 
+      } else {
+        throw new Error('Failed to delete employee');
+      }
     })
+    .catch(error => console.error(error));
 }
 
 fetchEmployees()
